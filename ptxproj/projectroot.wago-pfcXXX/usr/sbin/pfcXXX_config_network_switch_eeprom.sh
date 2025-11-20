@@ -65,26 +65,24 @@ function is_equal_content
   return $status
 }
 
+function set_eeprom_write_enabled
+{
+  local value=$1
+  gpioset -t0 mv88e6xxx_eeprom=$value
+}
+
 function write_eeprom
 {
   local status=0 
   local is_equal="false"
-  local write_protection_state=0 # 0 => write protection enabled; 1 => write protection disabled
 
-  [ ! -e /sys/class/gpio/gpio509 ] && echo 509 > /sys/class/gpio/export
-  echo out > /sys/class/gpio/gpio509/direction
-
-  # Store current write protection state. 
-  write_protection_state=$(cat /sys/class/gpio/gpio509/value)
-  # Disable EEPROM write protection.
-  [ "$write_protection_state" = 0 ] && echo 1 > /sys/class/gpio/gpio509/value
+  set_eeprom_write_enabled 1
 
   # Write EEPROM
   $ETHTOOL -E "$NETWORK_DEVICE" magic "$MAGIC" < "$IMAGE" &> /dev/null
   status=$?
 
-  # Restore write protection state
-  echo "$write_protection_state" > /sys/class/gpio/gpio509/value
+  set_eeprom_write_enabled 0
 
   # Check if EEPROM was written successful.
   if [ $status == 0 ]; then

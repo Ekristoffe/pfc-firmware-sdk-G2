@@ -1,8 +1,7 @@
 ARG REGISTRY_PREFIX='wagoautomation/'
-ARG SDK_BUILDER_VERSION='3.0.1'
+ARG SDK_BUILDER_VERSION='4.0.0'
 
-FROM ${REGISTRY_PREFIX}sdk-builder:${SDK_BUILDER_VERSION} AS pfc-firmware-sdk-G2
-
+FROM ${REGISTRY_PREFIX}sdk-builder:${SDK_BUILDER_VERSION} AS pfc-firmware-sdk-g2
 
 ARG USERID
 RUN useradd -l -u "$USERID" -ms /bin/bash user

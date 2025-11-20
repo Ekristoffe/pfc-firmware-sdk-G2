@@ -22,7 +22,8 @@ CIFXTOOLKIT			:= cifxtoolkit
 CIFXTOOLKIT_SRC_DIR	:= $(PTXDIST_WORKSPACE)/wago_intern/device/profibus/master/$(CIFXTOOLKIT)-$(CIFXTOOLKIT_VERSION)
 CIFXTOOLKIT_DIR		:= $(BUILDDIR)/$(CIFXTOOLKIT)-$(CIFXTOOLKIT_VERSION)
 CIFXTOOLKIT_LICENSE	:= Hilscher Open Source License
-CIFXTOOLKIT_ENV     := $(CROSS_ENV) CIFXTOOLKIT_VERSION=$(CIFXTOOLKIT_VERSION)
+CIFXTOOLKIT_MAKE_ENV     := $(CROSS_ENV) CIFXTOOLKIT_VERSION=$(CIFXTOOLKIT_VERSION)
+CIFXTOOLKIT_DEVPKG  := NO
 
 CIFXTOOLKIT_BIN     := libcifXToolkit.so.$(CIFXTOOLKIT_VERSION)
 CIFXTOOLKIT_PACKAGE_NAME := $(CIFXTOOLKIT)_$(CIFXTOOLKIT_VERSION)_$(PTXDIST_IPKG_ARCH_STRING)
@@ -44,8 +45,6 @@ endif
 # Prepare
 # ----------------------------------------------------------------------------
 
-CIFXTOOLKIT_PATH	:= PATH=$(CROSS_PATH)
-
 $(STATEDIR)/cifxtoolkit.prepare:
 	@$(call targetinfo)
 	@$(call touch)
@@ -54,13 +53,12 @@ $(STATEDIR)/cifxtoolkit.prepare:
 # Compile
 # ----------------------------------------------------------------------------
 
+ifdef PTXCONF_WAGO_TOOLS_BUILD_VERSION_BINARIES
+# WAGO_TOOLS_BUILD_VERSION_TRUNK | WAGO_TOOLS_BUILD_VERSION_RELEASE
 $(STATEDIR)/cifxtoolkit.compile:
 	@$(call targetinfo)
-ifndef PTXCONF_WAGO_TOOLS_BUILD_VERSION_BINARIES
-# WAGO_TOOLS_BUILD_VERSION_TRUNK | WAGO_TOOLS_BUILD_VERSION_RELEASE
-	cd $(CIFXTOOLKIT_DIR) && $(CIFXTOOLKIT_ENV) $(MAKE) $(PARALLELMFLAGS)
-endif
 	@$(call touch)
+endif
 
 # ----------------------------------------------------------------------------
 # Install
