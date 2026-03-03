@@ -64,7 +64,7 @@ If you prefer to build the sdk-builder image manually follow instruction provide
 ### 1.) Check out the correct release
 We provide one tag for each firmware(FW) release. You can download specific FW versions in the release section. Alternatively you may use git to clone the repository.  
 
-    git clone git@github.com:WAGO/pfc-firmware-sdk-G2.git && cd pfc-firmware-sdk-G2
+    git clone https://github.com/WAGO/pfc-firmware-sdk-G2.git && cd pfc-firmware-sdk-G2
 
 Afterward you can checkout a specific release.
 
